@@ -1,5 +1,6 @@
 import './App.css'
 import FilesContent from './Files'
+import Utilities from './Utilities'
 
 function App() {
 
@@ -16,11 +17,7 @@ function App() {
             <FilesContent/>
           </div>
           <h2>Upload a file</h2>
-          <form id='upload-form'>
-            <label htmlFor="file-input" id='custom-file-input'>browse</label>
-            <input type='file' id='file-input' />
-            <button type='submit' id='upload-button'>upload</button>
-          </form>
+          <Utilities/>
         </div>
       </div>
       <div id="footer">

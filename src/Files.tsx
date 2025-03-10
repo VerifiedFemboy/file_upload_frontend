@@ -9,7 +9,7 @@ interface FileObject {
 
 //TODO: Make functional
 async function requestGetFiles(): Promise<FileObject[]> {
-    const response = await fetch('/api/files');
+    const response = await fetch('http://127.0.0.1:8080/files');
     if (!response.ok) {
         throw new Error('Failed to fetch files');
     }
