@@ -3,8 +3,8 @@ import "./App.css"
 
 interface FileObject {
     name: string;
-    size: number;
-    type: string;
+    extension: string;
+    url: string;
 }
 
 //TODO: Make functional
@@ -13,8 +13,12 @@ async function requestGetFiles(): Promise<FileObject[]> {
     if (!response.ok) {
         throw new Error('Failed to fetch files');
     }
-    const files: FileObject[] = await response.json();
-    return files;
+    const data = await response.json();
+    return data.files.map((file: any) => ({
+        name: file.name,
+        extension: file.extention, // Note the typo in "extention"
+        url: file.url
+    }));
 }
 
 export default function FilesContent() {
@@ -32,18 +36,24 @@ export default function FilesContent() {
         fetchFiles();
     }, []);
 
-    if (files.length === 0) {
-        return <div>No files available</div>;
-    } else {
+    if (files.length > 0) {
         return (
             <div>
                 <ul>
                     {files.map((file) => (
                         <li key={file.name}>
-                            {file.name} - {file.size} bytes - {file.type}
+                            <div>
+                                <img src={file.url} alt={file.name} width={300} />
+                            </div>
                         </li>
                     ))}
                 </ul>
+            </div>
+        );
+    } else {
+        return (
+            <div>
+                <p>No files found</p>
             </div>
         );
     }
