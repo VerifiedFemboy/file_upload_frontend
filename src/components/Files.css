@@ -1,0 +1,46 @@
+#files { 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#file {
+    margin: 1em;
+    padding: 1em;
+    border: 1px solid #d3d3d3;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#info_and_btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#delete-btn {
+    background-color: #f44336;
+    color: #ffffff;
+    border: none;
+    padding: 0.70em;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 1em;
+    margin-left: auto;
+}
+
+#delete-btn:hover {
+    background-color: #d32f2f;
+}
+
+#file-info {
+    font-style: italic;
+}
+
+#file-info h3 {
+    font-weight: 500;
+}

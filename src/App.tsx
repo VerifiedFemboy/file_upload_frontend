@@ -1,6 +1,6 @@
 import './App.css'
-import FilesContent from './Files'
-import Utilities from './Utilities'
+import FilesContent from './components/Files'
+import Utilities from './components/Utilities'
 
 function App() {
 
