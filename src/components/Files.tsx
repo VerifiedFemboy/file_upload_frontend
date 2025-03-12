@@ -23,6 +23,7 @@ async function requestGetFiles(): Promise<FileObject[]> {
     }));
 }
 
+//TODO: Implement preview for text files and other file types
 export default function FilesContent() {
     const [files, setFiles] = React.useState<FileObject[]>([]);
 
@@ -51,16 +52,22 @@ export default function FilesContent() {
                                 case 'png':
                                 case 'webp':
                                     return <img src={file.url} alt={file.name} width={300} />;
+                                case 'mp3':
+                                    return <img src="src/assets/mp3.png" alt="mp3 file" width={300}/>
+                                case 'mkv':
+                                case 'avi':
+                                case 'mp4':
+                                    return <video src={file.url} controls width={300} />;
                                 default:
-                                    return <img src="src/assets/txt.png" alt="text file logo" width={300} />;
+                                    return <img src="src/assets/txt.png" alt="txt file" width={300} />;
                             }
                         })()}
                         <div id="info_and_btn">
                             <div id="file-info">
-                                <h2>{file.name}</h2>
+                                <h2 title={shortString(file.name, 15)[1] ? file.name : undefined}>{shortString(file.name, 15)[0]}</h2>
                                 <h3>size: {convertFileSize(file.size)}</h3>
                             </div>
-                            <button id="delete-btn" onClick={() => deleteFile(file.name)}>🗑️</button>
+                            <button id="delete-btn" onClick={() => deleteFile(file.name, setFiles)}>🗑️</button>
                         </div>
                     </div>
                 ))}
@@ -85,7 +92,7 @@ function convertFileSize(size: number): string {
     return `${size.toFixed(2)} ${units[unitIndex]}`;
 }
 
-async function deleteFile(file: string) {
+async function deleteFile(file: string, setFiles: React.Dispatch<React.SetStateAction<FileObject[]>>): Promise<void> {
     try {
         const response = await fetch(`http://127.0.0.1:8080/file/${file}`, {
             method: 'DELETE',
@@ -93,9 +100,17 @@ async function deleteFile(file: string) {
         if (!response.ok) {
             throw new Error('Failed to delete file');
         } else {
+            setFiles((prevFiles) => prevFiles.filter((f) => f.name !== file));
             alert("Successfully deleted the file");
         }
     } catch (error) {
         console.error(error);
     }
+}
+
+function shortString(str: string, maxLength: number): [string, boolean] {
+    if (str.length > maxLength) {
+        return [str.slice(0, maxLength) + '...', true];
+    }
+    return [str, false];
 }
